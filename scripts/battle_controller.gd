@@ -1,18 +1,20 @@
 var defender_stats
 var attacker_stats
+var roll
 
 func resolve_fight(attacker, defender):
 	attacker_stats = attacker.get_stats()
 	defender_stats = defender.get_stats()
-		
-	defender_stats.life = defender_stats.life - attacker_stats.attack
+	roll = 1 + ( randi() % attacker_stats.attack )
+
+	defender_stats.life = defender_stats.life - roll
 	defender.set_stats(defender_stats)
-	defender.show_floating_damage(attacker_stats.attack)
-	
+	defender.show_floating_damage(roll)
+
 	attacker_stats.ap = attacker_stats.ap - attacker_stats.attack_ap
 	attacker_stats.attacks_number = attacker_stats.attacks_number - 1
 	attacker.set_stats(attacker_stats)
-	
+
 	#handle
 	if (defender_stats.life <= 0):
 		return true
@@ -24,10 +26,12 @@ func resolve_defend(attacker, defender):
 	attacker_stats = attacker.get_stats()
 	defender_stats = defender.get_stats()
 
-	attacker_stats.life = attacker_stats.life - defender_stats.attack
+	roll = 1 + ( randi() % defender_stats.attack )
+
+	attacker_stats.life = attacker_stats.life - roll
 	attacker.set_stats(attacker_stats)
-	attacker.show_floating_damage(defender_stats.attack)
-	
+	attacker.show_floating_damage(roll)
+
 	defender_stats.ap = 0
 	defender.set_stats(defender_stats)
 
@@ -43,4 +47,3 @@ func can_attack(attacker, defender):
 
 func can_defend(defender, attacker):
 	return defender.can_attack_unit_type(attacker) && defender.can_defend()
-	

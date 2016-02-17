@@ -6,13 +6,13 @@ func _init():
 
 	life = 10
 	max_life = 10
-	attack = 5
+	attack = 2
 	max_ap = 4
 	limited_ap = 3
 	attack_ap = 1
-	max_attacks_number = 1
+	max_attacks_number = 2
 	ap = 4
-	attacks_number = 1
+	attacks_number = 2
 	visibility = 3
 
 func can_capture_building(building):
