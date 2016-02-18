@@ -8,6 +8,7 @@ var move_positions = []
 var current_map_terrain
 var current_map
 var health_bar
+var attacks_bar
 var icon_shield
 var anim
 var teleport_anim
@@ -82,12 +83,14 @@ func set_stats(new_stats):
 	ap = new_stats.ap
 	attacks_number = new_stats.attacks_number
 	self.update_healthbar()
+	self.update_attacksbar()
 	self.update_shield()
 	self.set_no_ap_idle()
 
 func update_ap(new_ap):
 	ap = new_ap
 	self.update_shield()
+	self.update_attacksbar()
 	self.set_no_ap_idle()
 
 func reset_ap(limit_ap):
@@ -99,6 +102,7 @@ func reset_ap(limit_ap):
 	attacks_number = max_attacks_number
 	self.update_shield()
 	self.update_healthbar()
+	self.update_attacksbar()
 	self.set_no_ap_idle()
 
 func set_pos_map(new_position):
@@ -164,6 +168,9 @@ func update_healthbar():
 	var new_frame = floor((1.0 - life_status)*10)
 	self.health_bar.set_frame(new_frame)
 
+func update_attacksbar():
+	self.attacks_bar.set_frame(self.attacks_number)
+
 func show_explosion():
 	explosion = explosion_template.instance()
 	explosion.unit = self
@@ -222,6 +229,7 @@ func _ready():
 		self.current_map_terrain = self.get_node("/root/game").current_map_terrain
 		self.current_map = self.get_node("/root/game").current_map
 	self.health_bar = self.get_node("health")
+	self.attacks_bar = self.get_node("attacks")
 	self.icon_shield = self.get_node("shield")
 	self.fix_initial_pos()
 	self.anim.play("move")
